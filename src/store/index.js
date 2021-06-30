@@ -9,8 +9,19 @@ const vuexLocal = new VuexPersistence({
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
+  state: {
+    favourites: [],
+  },
+  mutations: {
+    setFavourites(state, value) {
+      state.favourites = value;
+    },
+  },
+  getters: {
+    getFavourites(state) {
+      return state.favourites;
+    },
+  },
   actions: {},
   modules: {},
   plugins: [vuexLocal.plugin],
