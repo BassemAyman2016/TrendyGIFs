@@ -2,34 +2,64 @@
   <div class="home">
     <div class="label">Trending</div>
     <div class="landing" :style="calculateStyleLanding()">
-      <div
-        class="holder"
-        :style="calculateStyleImageHolder()"
-        v-for="(item, index) in trendingGifs"
-        :key="index"
-      >
-        <img
-          v-if="item.url"
-          :src="item.url"
-          :style="calculateStyleImage(item)"
-          alt="text"
-          @click="imgeClicked(item)"
-        />
-        <div class="likeButton">
-          <b-icon
-            @click="iconClickHandler(item)"
-            :icon="`heart${item.isFavourite ? '-fill' : ''}`"
-            class="likeButton__icon-style"
-            :id="`button-${index}`"
-          ></b-icon>
-          <b-tooltip
-            v-if="windowWidth > 769"
-            :target="`button-${index}`"
-            :title="`${item.isFavourite ? 'Unlike' : 'Like'}`"
-          ></b-tooltip>
+      <template v-if="trendingGifs">
+        <div
+          class="holder"
+          :style="calculateStyleImageHolder()"
+          v-for="(item, index) in trendingGifs"
+          :key="index"
+        >
+          <img
+            v-if="item.url"
+            :src="item.url"
+            :style="calculateStyleImage(item)"
+            alt="text"
+            @click="imgeClicked(item)"
+          />
+          <div class="likeButton">
+            <b-icon
+              @click="iconClickHandler(item)"
+              :icon="`heart${item.isFavourite ? '-fill' : ''}`"
+              class="likeButton__icon-style"
+              :id="`button-${index}`"
+            ></b-icon>
+            <b-tooltip
+              v-if="windowWidth > 769"
+              :target="`button-${index}`"
+              :title="`${item.isFavourite ? 'Unlike' : 'Like'}`"
+            ></b-tooltip>
+          </div>
+          <!-- {{ item.id }} -->
         </div>
-        <!-- {{ item.id }} -->
+      </template>
+      <div v-else>
+        <b-spinner
+          style="width: 3rem; height: 3rem"
+          label="Large Spinner"
+          variant="warning"
+        ></b-spinner>
       </div>
+
+      <template v-if="trendingGifs && trendingGifs.length > 0">
+        <div style="flex-basis: 100%; margin: 15px">
+          <div
+            style="
+              width: 100%;
+              display: flex;
+              flex-flow: row wrap;
+              justify-content: center;
+            "
+          >
+            <b-spinner
+              v-observe-visibility="visibilityChanged"
+              style="width: 3rem; height: 3rem"
+              label="Large Spinner"
+              variant="warning"
+            ></b-spinner>
+          </div>
+        </div>
+      </template>
+
       <b-modal id="my-modal">Hello From My Modal!</b-modal>
     </div>
   </div>
@@ -39,7 +69,7 @@
 export default {
   data() {
     return {
-      trendingGifs: [],
+      trendingGifs: null,
       chosenItem: null,
     };
   },
@@ -51,7 +81,7 @@ export default {
       headers.append("Accept", "application/json");
       headers.append("Origin", "http://localhost:8080");
       const res = await fetch(
-        "https://g.tenor.com/v1/trending?key=DAV0WUE8QI44&limit=20&pos=1624662254.57017",
+        "https://g.tenor.com/v1/trending?key=DAV0WUE8QI44&limit=50&pos=1624662254.57017",
         {
           method: "GET", // *GET, POST, PUT, DELETE, etc.
           // mode: "cors", // no-cors, *cors, same-origin
@@ -95,8 +125,9 @@ export default {
           singleItem.isFavourite = false;
         }
       });
-
-      this.trendingGifs = tempGifs;
+      setTimeout(() => {
+        this.trendingGifs = tempGifs;
+      }, 3000);
     },
     calculateStyleImageHolder() {
       let styleOutputOb = {};
@@ -206,6 +237,10 @@ export default {
       console.log("in imgeClicked", item);
       this.$bvModal.show("my-modal");
     },
+    visibilityChanged(isVisible, entry) {
+      console.log("isVisible", isVisible);
+      console.log("entry", entry);
+    },
   },
   computed: {
     favoriteGifs() {
@@ -216,9 +251,9 @@ export default {
     },
   },
   async created() {
-    for (let i = 0; i < 100; i++) {
-      this.trendingGifs.push({ id: i });
-    }
+    // for (let i = 0; i < 100; i++) {
+    //   this.trendingGifs.push({ id: i });
+    // }
     await this.fetchData();
   },
 };
