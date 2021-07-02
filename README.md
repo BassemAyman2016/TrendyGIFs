@@ -1,8 +1,9 @@
 # TrendyGIFS
+A web-app used to check the latest trending GIFs on the famous gif hosting website [Giphy.com](https://giphy.com/)
 
 Deployed project link : https://trendygifs.herokuapp.com/
 
-NB: For the commit history the master branch
+NB: For the commit history check the master branch
 ## Setup for Local Testing
 
 Pull the repo locally and open a terminal
