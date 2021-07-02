@@ -26,7 +26,7 @@ Now the frontend is running on port 8080, to view the project open `http://local
 ## Trending Page
 ![alt Trending Page](screenshots/trending.png)
 ## Favourites Page
-![alt Favourites Page](screenshots/favourites)
+![alt Favourites Page](screenshots/favourites.png)
 ## Search Page and Popup
 ![alt Search Page](screenshots/search.png)
 ![alt Popup Page](screenshots/popup.png)
