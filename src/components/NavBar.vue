@@ -2,7 +2,7 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" variant="dark">
-      <b-navbar-brand @click="$router.push('/')" style="cursor: pointer"
+      <b-navbar-brand @click="rerouteButtonClicked('/')" style="cursor: pointer"
         >Trendy GIFs</b-navbar-brand
       >
 
@@ -18,21 +18,19 @@
         <b-navbar-nav class="ml-auto">
           <b-button
             :pressed="false"
-            @click="$router.push('/search')"
+            @click="rerouteButtonClicked('/search')"
             size="sm"
-            class=""
+            class="button-style"
             type="submit"
-            style="margin: 0px 5px"
           >
             Search GIF
           </b-button>
           <b-button
             :pressed="false"
-            @click="$router.push('/favourites')"
+            @click="rerouteButtonClicked('/favourites')"
             size="sm"
-            class="my-2 my-sm-0 m-sm"
+            class="button-style"
             type="submit"
-            style="margin: 0px 5px"
             >View Favourites</b-button
           >
 
@@ -58,7 +56,17 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    rerouteButtonClicked(routeValue) {
+      this.$router.push(routeValue);
+    },
+  },
+};
 </script>
 
-<style></style>
+<style>
+.button-style {
+  margin: 5px 5px 0px;
+}
+</style>

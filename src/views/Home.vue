@@ -84,6 +84,11 @@
         </div>
       </b-modal>
     </div>
+    <div class="scroll-top-holder" title="Scroll to Top" @click="scrollToTop()">
+      <div class="icon-container">
+        <b-icon icon="arrow-up-square" class="up-arrow"></b-icon>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -109,13 +114,11 @@ export default {
       )
         .then((response) => response.json())
         .then((data) => {
-          console.log("results", data);
           return data;
         })
         .catch((error) => {
           console.error("Error:", error);
         });
-      console.log("after fetch", fetchedData);
       this.offset += fetchedData.pagination.count;
       let data = fetchedData.data;
       let outputArray = data;
@@ -185,7 +188,6 @@ export default {
         styleOutputOb.margin = "2.5px 5px";
       }
       // newWidth = "95vw";
-      // console.log(newWidth + "vw");
       styleOutputOb.width = newWidth;
       styleOutputOb.height = newHeight;
       // styleOutputOb.height = "100%";
@@ -258,6 +260,13 @@ export default {
         }
       }
     },
+    scrollToTop() {
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      });
+    },
   },
   computed: {
     favoriteGifs() {
@@ -297,6 +306,7 @@ export default {
   background-color: #222222;
   width: 100%;
   min-height: 95vh;
+  position: relative;
 }
 .no-padding {
   padding: none !important;
@@ -329,5 +339,26 @@ export default {
       color: red;
     }
   }
+}
+.scroll-top-holder {
+  position: fixed;
+  left: 2vw;
+  bottom: 2vh;
+  width: 50px;
+  height: 50px;
+  background-color: dodgerblue;
+  border-radius: 50px;
+  cursor: pointer;
+}
+.icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+.up-arrow {
+  font-size: 50px;
+  color: white;
 }
 </style>
